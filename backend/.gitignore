@@ -2,3 +2,7 @@
 /node_modules
 /.pnp
 .pnp.js
+
+uploads/*
+!uploads/.gitkeep
+!uploads/demo*
