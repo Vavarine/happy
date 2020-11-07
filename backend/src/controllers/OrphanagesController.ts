@@ -11,7 +11,7 @@ export default {
 
       const orphanages = await orphanageRepository.find({ relations: ['images'] });
 
-      return res.status(200).send(orphanages);
+      return res.status(200).send(orphanageView.renderMany(orphanages));
    },
 
    async show(req: Request, res: Response) {
@@ -51,7 +51,7 @@ export default {
          about,
          instructions,
          opening_hours,
-         open_on_weekends,
+         open_on_weekends: open_on_weekends === 'true',
          images
       }
 
@@ -60,6 +60,7 @@ export default {
          latitude: yup.number().required(),
          longitude: yup.number().required(),
          about: yup.string().required().max(300),
+         instructions: yup.string().required().max(300),
          opening_hours: yup.string().required(),
          open_on_weekends: yup.boolean().required(),
          images: yup.array(

@@ -2,6 +2,11 @@ import express from 'express';
 import path from 'path';
 import 'express-async-errors';
 import cors from 'cors';
+import dotEnv from 'dotenv';
+
+dotEnv.config({
+  path: process.env.NODE_ENV === "example" ? ".env.example" : ".env"
+});
 
 import './database/conection';
 import routes from './routes';

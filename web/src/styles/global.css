@@ -7,6 +7,9 @@
 body {
    color: #ffffff;
    background-color: #ebf2f5;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   text-rendering: optimizeLegibility;
 }
 
 body, input, button, textarea {
