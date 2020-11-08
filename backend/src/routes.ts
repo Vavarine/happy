@@ -20,7 +20,7 @@ routes.post('/orphanages', upload.array('images'), OrphanagesController.create);
 // Rotas de Usuários
 routes.get('/users', UsersController.index);
 routes.post('/users/create', UsersController.create);
-routes.get('/users/login', UsersController.login);
+routes.post('/users/login', UsersController.login);
 
 routes.get('/users/teste', verifyJWT, UsersController.testRoute);
 

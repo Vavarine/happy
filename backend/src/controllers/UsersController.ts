@@ -22,7 +22,7 @@ export default {
     const schema = yup.object().shape({
       name: yup.string().required().max(100),
       email: yup.string().required().max(100),
-      password: yup.string().required().max(100)
+      password: yup.string().required().max(100).min(6)
     })
 
     await schema.validate(req.body, {
@@ -52,6 +52,15 @@ export default {
   async login(req: Request, res: Response) {
     const { email, password } = req.body;
 
+    const schema = yup.object().shape({
+      email: yup.string().required().max(100),
+      password: yup.string().required().max(100).min(6)
+    })
+
+    await schema.validate(req.body, {
+      abortEarly: false,
+    })
+
     const usersRepository = getRepository(User);
 
     const user = await usersRepository.findOneOrFail({ email });
@@ -61,17 +70,17 @@ export default {
 
       if (result) {
         var token = jwt.sign({ id }, process.env.SECRET as string, {
-          expiresIn: 300 // expires in 5min
+          expiresIn: 10080 // expires in a week
         });
 
         return res.json({ auth: true, token: token });
       } else {
-        res.status(401).json({ message: "Login inválido" })
+        res.status(401).json({ message: "Invalid login" })
       }
     });
   },
 
   async testRoute(req: Request, res: Response) {
-    res.status(200).json({ message: 'Usuario tem acesso' })
+    res.status(200).json({ message: 'Successful login' })
   }
 }

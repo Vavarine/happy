@@ -1,23 +1,23 @@
-#page-redefine-password {
+#page-new-account {
   height: 100vh;
   width: 100vw;
+  min-height: 640px;
   background: linear-gradient(329.54deg, #29B6D1 0%, #00C7C7 100%);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-#page-redefine-password .login-container {
+#page-new-account .login-container {
   height: 100%;
   width: 520px;
   background-color: #fff;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-#page-redefine-password .login-container .back-button {
+#page-new-account .login-container .back-button {
   position: absolute;
   top: 50px;
   right: 50px;
@@ -32,23 +32,23 @@
   transition: opacity .1s;
 }
 
-#page-redefine-password .login-container .back-button:hover {
+#page-new-account .login-container .back-button:hover {
   opacity: .5;
 }
 
-form.redefine-form {
+form.new-account-form {
   width: 360px;
 }
 
-form.redefine-form fieldset {
+form.new-account-form fieldset {
   border: 0;
 }
 
-form.redefine-form fieldset+fieldset {
+form.new-account-form fieldset+fieldset {
   margin-top: 80px;
 }
 
-form.redefine-form fieldset legend {
+form.new-account-form fieldset legend {
   width: 100%;
   font-size: 32px;
   line-height: 34px;
@@ -58,25 +58,25 @@ form.redefine-form fieldset legend {
   margin-bottom: 24px;
 }
 
-form.redefine-form p {
+form.new-account-form p {
   font-size: 18px;
   font-weight: 600;
   color: #5C8599;
   margin-bottom: 60px;
 }
 
-form.redefine-form .input-block {
+form.new-account-form .input-block {
   margin-top: 24px;
 }
 
-form.redefine-form .input-block label {
+form.new-account-form .input-block label {
   display: flex;
   color: #8FA7B3;
   margin-bottom: 8px;
   line-height: 16px;
 }
 
-form.redefine-form .input-block input {
+form.new-account-form .input-block input {
   height: 64px;
   padding: 0 16px;
   width: 100%;
@@ -87,7 +87,7 @@ form.redefine-form .input-block input {
   color: #5C8599;
 }
 
-form.redefine-form button.login-button {
+form.new-account-form button.login-button {
   margin-top: 42px;
   height: 64px;
   width: 360px;
@@ -102,6 +102,6 @@ form.redefine-form button.login-button {
   transition: opacity 0.2s;
 }
 
-form.redefine-form button.login-button:hover {
+form.new-account-form button.login-button:hover {
   opacity: .5;
 }

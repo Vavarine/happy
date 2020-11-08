@@ -8,6 +8,7 @@ import Orphanage from './pages/Orphanage';
 import Login from './pages/Login';
 import RedefinePassword from './pages/RedefinePassword';
 import NewPassword from './pages/NewPassword';
+import NewAccount from './pages/NewAccount';
 
 // Switch faz com que apenas uma rota seja mostrada por vez
 
@@ -24,6 +25,7 @@ function Routes() {
             <Route path="/login" component={Login} />
             <Route path="/redefine-password" component={RedefinePassword} />
             <Route path="/new-password" component={NewPassword} />
+            <Route path="/new-account" component={NewAccount} />
          </Switch>
       </BrowserRouter>
    );
