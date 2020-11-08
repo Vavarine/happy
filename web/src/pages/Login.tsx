@@ -1,16 +1,16 @@
 import React, { useState, FormEvent, useEffect } from 'react';
-import { Link, useHistory, } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { FiCheck, FiArrowLeft } from 'react-icons/fi'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import emailValidator from 'email-validator';
 
-import Panel from '../components/Panel';
-
-import { login } from '../actions';
-
 import '../styles/pages/login.css';
+
+import Panel from '../components/Panel';
+import { login } from '../actions';
 import api from '../services/api';
-import { stringify } from 'querystring';
+
+import { Reducers } from '../reducers';
 
 interface ValidationErrors {
   message: string;
@@ -24,17 +24,35 @@ interface UserToken {
   token: string
 }
 
+interface LoginParams {
+  requested?: string
+}
+
 function Login() {
+  const params = useParams<any>();
+  const userToken = useSelector<Reducers, Reducers['user']>((state) => state.user);
+  const [loading, setLoading] = useState(true);
+
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const [email, setEmail] = useState('');
-  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const [password, setPassword] = useState('');
   const [isPasswordValid, setIspasswordValid] = useState(false);
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log(params)
+
+    if (userToken.auth === true) {
+      history.push('/dashboard');
+    }
+
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     if (emailValidator.validate(email)) {
@@ -81,8 +99,19 @@ function Login() {
 
     if (rememberMe) {
       localStorage.setItem('userToken', JSON.stringify(user))
+    } else {
+      sessionStorage.setItem('userToken', JSON.stringify(user))
+    }
+
+
+
+    if (params.requested === 'true') {
+      history.goBack();
+    } else {
+      history.push('/dashboard');
     }
   }
+
   function handleInvalidLogin() {
     console.log('asdfasdf')
     setErrorMessage('Login invalido');
@@ -114,6 +143,12 @@ function Login() {
 
   function handleRememberMeClick() {
     setRememberMe(!rememberMe);
+  }
+
+  if (loading) {
+    return (
+      <div id="page-login"></div>
+    )
   }
 
   return (

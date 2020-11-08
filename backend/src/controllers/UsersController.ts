@@ -80,7 +80,7 @@ export default {
     });
   },
 
-  async testRoute(req: Request, res: Response) {
-    res.status(200).json({ message: 'Successful login' })
+  async authToken(req: Request, res: Response) {
+    res.status(200).json({ message: 'Valid', ...req.body })
   }
 }

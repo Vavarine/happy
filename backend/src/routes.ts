@@ -22,6 +22,6 @@ routes.get('/users', UsersController.index);
 routes.post('/users/create', UsersController.create);
 routes.post('/users/login', UsersController.login);
 
-routes.get('/users/teste', verifyJWT, UsersController.testRoute);
+routes.get('/users/authToken', verifyJWT, UsersController.authToken);
 
 export default routes;

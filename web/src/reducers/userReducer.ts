@@ -15,7 +15,7 @@ export const userReducer = (state: UserState = initialState, action: UserAction)
     case 'USER/LOGIN':
       return action.payload
     case 'USER/LOGOUT':
-      return { auth: false, token: null }
+      return { auth: false, token: '' }
     default:
       return state;
   }
