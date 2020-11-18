@@ -3,6 +3,7 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { FiCheck, FiArrowLeft } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux';
 import emailValidator from 'email-validator';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 import '../styles/pages/login.css';
 
@@ -12,7 +13,7 @@ import api from '../services/api';
 
 import { Reducers } from '../reducers';
 
-interface ValidationErrors {
+export interface ValidationErrors {
   message: string;
   errors: {
     [key: string]: string[]
@@ -32,6 +33,8 @@ function Login() {
   const params = useParams<any>();
   const userToken = useSelector<Reducers, Reducers['user']>((state) => state.user);
   const [loading, setLoading] = useState(true);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [submitButtonText, setSubmitButtonText] = useState('Entrar');
 
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -62,6 +65,7 @@ function Login() {
     }
   }, [email]);
 
+  // Password effect 
   useEffect(() => {
     if (password.length >= 6) {
       setIspasswordValid(true)
@@ -73,6 +77,7 @@ function Login() {
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
+    setLoginLoading(true);
     setErrorMessage('');
 
     const data = {
@@ -82,20 +87,28 @@ function Login() {
 
     api.post('users/login', data).then(response => {
       handleLogin(response.data);
+      setLoginLoading(false);
     }).catch(err => {
       console.log(err.response.data.message)
+      if (err.response.data.message === 'Not found') {
+        handleInvalidLogin();
+        setLoginLoading(false);
+      }
+
       if (err.response.data.message === 'Invalid login') {
-        handleInvalidLogin()
+        handleInvalidLogin();
+        setLoginLoading(false);
       }
 
       if (err.response.data.message === 'Validation errors') {
-        handleValidationErrors(err.response.data)
+        handleValidationErrors(err.response.data);
+        setLoginLoading(false);
       }
     })
   }
 
   function handleLogin(user: UserToken) {
-    dispatch(login(user))
+    dispatch(login(user));
 
     if (rememberMe) {
       localStorage.setItem('userToken', JSON.stringify(user))
@@ -103,28 +116,27 @@ function Login() {
       sessionStorage.setItem('userToken', JSON.stringify(user))
     }
 
+    setSubmitButtonText('Tudo certo :)');
+
+    setTimeout(() => {
+      if (params.requested === 'true') {
+        history.goBack();
+      } else {
+        history.push('/dashboard');
+      }
+    }, 800);
 
 
-    if (params.requested === 'true') {
-      history.goBack();
-    } else {
-      history.push('/dashboard');
-    }
   }
 
   function handleInvalidLogin() {
-    console.log('asdfasdf')
-    setErrorMessage('Login invalido');
+    document.getElementById('email')!.focus();
+    setPassword('');
 
-    document.querySelectorAll<HTMLInputElement>('.login-form input').forEach((el, index) => {
-      if (index === 0) {
-        el.focus()
-      }
+    setLoginLoading(false);
+    setSubmitButtonText('Login invalido');
 
-      el.className = '';
-      el.value = '';
-    })
-
+    setTimeout(() => { setSubmitButtonText('Entrar') }, 800);
   }
 
   function handleValidationErrors(err: ValidationErrors) {
@@ -204,7 +216,17 @@ function Login() {
             </div>
           </fieldset>
 
-          <button className='login-button' type='submit'>Entrar</button>
+          <button className='login-button' type='submit'>
+            {(loginLoading) ? (
+              <MoonLoader
+                size={30}
+                color={"#123abc"}
+                loading={loginLoading}
+              />
+            ) :
+              submitButtonText
+            }
+          </button>
         </form>
 
         <Link className='link-new-account' to='/new-account'>Não tem uma conta?</Link>

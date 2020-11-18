@@ -11,6 +11,7 @@ import { login } from './actions';
 import { UserState } from './reducers/userReducer';
 
 import LoadingScreen from './components/LoadingScreen';
+import api from './services/api';
 
 function App() {
   const userToken = useSelector<Reducers, Reducers['user']>((state) => state.user);
@@ -24,13 +25,39 @@ function App() {
 
     if (storagedUserToken) {
       const parsedUserToken: UserState = JSON.parse(storagedUserToken);
-      dispatch(login(parsedUserToken));
+
+      api.get('users/auth', {
+        headers: {
+          'x-access-token': parsedUserToken.token
+        }
+      }).then(response => {
+        console.log(response);
+        dispatch(login(parsedUserToken));
+        setLoading(false)
+      }).catch(err => {
+        console.log(err.response.data.message);
+      }).finally(() => {
+        setLoading(false);
+      });
+
     } else if (sessionStoragedUserToken) {
       const parsedUserToken: UserState = JSON.parse(sessionStoragedUserToken);
-      dispatch(login(parsedUserToken));
+
+      api.get('users/auth', {
+        headers: {
+          'x-access-token': parsedUserToken.token
+        }
+      }).then(response => {
+        console.log(response);
+        dispatch(login(parsedUserToken));
+      }).catch(err => {
+        console.log(err.response.data.message);
+      }).finally(() => {
+        setLoading(false);
+      });
     }
 
-    setLoading(false)
+    setLoading(false);
   }, [])
 
   if (loading) {

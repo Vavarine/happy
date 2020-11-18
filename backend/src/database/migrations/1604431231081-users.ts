@@ -26,6 +26,11 @@ export class users1604431231081 implements MigrationInterface {
                 {
                     name: 'password',
                     type: 'varchar',
+                },
+                {
+                    name: 'newPasswordToken',
+                    type: 'varchar',
+                    isNullable: true
                 }
             ]
         }))

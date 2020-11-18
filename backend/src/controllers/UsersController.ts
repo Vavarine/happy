@@ -7,12 +7,24 @@ import jwt from 'jsonwebtoken';
 
 import User from '../models/User';
 
+import sendNewPasswordTokenToEmail from '../utils/emailSender';
+import usersView from '../views/usersView';
+
 export default {
   async index(req: Request, res: Response) {
     const usersRepository = getRepository(User);
     const users = await usersRepository.find();
 
     return res.status(201).send(users);
+  },
+
+  async showUserOrphanages(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOneOrFail(id, { relations: ['orphanages', 'orphanages.images'] });
+
+    return res.status(200).send(usersView.renderUserOrphanages(user))
   },
 
   async create(req: Request, res: Response) {
@@ -29,10 +41,10 @@ export default {
       abortEarly: false,
     })
 
-    bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+    bcrypt.hash(req.body.password.replace(/(\r\n|\n|\r)/gm, ""), saltRounds, (err, hash) => {
       const user = usersRepository.create({
-        name: req.body.name,
-        email: req.body.email,
+        name: req.body.name.replace(/(\r\n|\n|\r)/gm, ""),
+        email: req.body.email.replace(/(\r\n|\n|\r)/gm, ""),
         password: hash
       });
 
@@ -81,6 +93,96 @@ export default {
   },
 
   async authToken(req: Request, res: Response) {
+    const { id } = req.body;
+
+    const userRepository = getRepository(User);
+
+    await userRepository.findOneOrFail(id);
+
     res.status(200).json({ message: 'Valid', ...req.body })
+  },
+
+  async newPasswordToken(req: Request, res: Response) {
+    const schema = yup.object().shape({
+      email: yup.string().required().max(100),
+    })
+
+    await schema.validate(req.body, {
+      abortEarly: false,
+    })
+
+    const usersRepository = getRepository(User);
+
+    const user = await usersRepository.findOneOrFail({ email: req.body.email });
+
+    var newPasswordToken = jwt.sign({ id: user.id }, process.env.SECRET as string, {
+      expiresIn: 86400 // expires in a week
+    });
+
+    sendNewPasswordTokenToEmail(newPasswordToken, user.email);
+
+    await usersRepository.update(user.id, { newPasswordToken });
+
+    return res.status(200).json({ message: 'Success', newPasswordToken })
+  },
+
+  async authNewPasswordToken(req: Request, res: Response) {
+    var token = req.headers['x-password-update-access-token'] as string;
+
+    if (!token) return res.status(401).json({ message: 'No token provided.' });
+
+    jwt.verify(token, process.env.SECRET as string, async function (err: any, decode: any) {
+      if (err) return res.status(400).json({ message: 'Token is not valid' });
+
+      const { id } = decode as any
+
+      const usersRepository = getRepository(User);
+
+      const user = await usersRepository.findOneOrFail(id);
+
+      res.status(200).json({ userEmail: user.email, message: 'Token is valid' });
+    })
+  },
+
+  async updatePassword(req: Request, res: Response) {
+    const saltRounds = 10;
+    var token = req.headers['x-password-update-access-token'] as string;
+
+    const schema = yup.object().shape({
+      newPassword: yup.string().required().min(6),
+    })
+
+    await schema.validate(req.body, {
+      abortEarly: false,
+    })
+
+    if (!token) return res.status(401).json({ message: 'No token provided.' });
+
+    const { newPassword } = req.body;
+
+    // Verifica se o token é valido ao o decriptar
+    jwt.verify(token, process.env.SECRET as string, async function (err: any, decode: any) {
+      if (err) return res.status(400).json({ message: 'Token is not valid' });
+
+      const { id } = decode as any
+
+      const usersRepository = getRepository(User);
+
+      const user = await usersRepository.findOneOrFail(id);
+
+      if (user.newPasswordToken !== token) {
+        return res.status(400).json({
+          message: 'Token is not valid'
+        });
+      }
+
+      bcrypt.hash(newPassword.replace(/(\r\n|\n|\r)/gm, ""), saltRounds, async (err, hash) => {
+
+        await usersRepository.update(id, { password: hash, newPasswordToken: '' });
+
+        res.status(200).json({ message: 'Password updated' });
+      })
+
+    })
   }
 }

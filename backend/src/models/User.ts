@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn, ManyToOne } from "typeorm";
+import Orphanage from './Orphanage';
 
 @Entity('users')
 export default class User {
@@ -13,4 +14,14 @@ export default class User {
 
   @Column()
   password: string;
+
+  @Column()
+  newPasswordToken: string;
+
+  @OneToMany(() => Orphanage, orphanage => orphanage.user, {
+    cascade: ['insert', 'update']
+  })
+
+  @JoinColumn({ name: 'user_id' })
+  orphanages: Orphanage[]
 }

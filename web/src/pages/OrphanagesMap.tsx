@@ -28,11 +28,14 @@ function OrphanagesMap() {
       })
    }, []);
 
-   return(
+   return (
       <div id="page-map">
          <aside>
             <header>
-               <img src={mapMarkerImg} alt="Happy"/>
+               <Link to='/'>
+                  <img src={mapMarkerImg} alt="Happy" />
+
+               </Link>
 
                <h2>Escolha um orfanato no mapa</h2>
                <p>Muitas criaças estão esperando sua visita :)</p>
@@ -44,18 +47,18 @@ function OrphanagesMap() {
             </footer>
          </aside>
 
-         <Map 
+         <Map
             center={[-23.6712935, -46.468151]}
             zoom={15}
             style={{ width: '100%', height: '100%' }}
          >
             {/* <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' /> */}
-            <TileLayer 
-               url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`} 
+            <TileLayer
+               url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
             />
 
             {orphanages.map(orphanage => {
-               return(
+               return (
                   <Marker
                      position={[orphanage.latitude, orphanage.longitude]}
                      icon={mapIcon}
@@ -64,7 +67,7 @@ function OrphanagesMap() {
                      <Popup closeButton={false} minWidth={240} maxWidth={240} className='map-popup'>
                         {orphanage.name}
                         <Link to={`/orphanages/${orphanage.id}`}>
-                           <FiArrowRight size={20} color="#fff"/>
+                           <FiArrowRight size={20} color="#fff" />
                         </Link>
                      </Popup>
                   </Marker>
@@ -74,7 +77,7 @@ function OrphanagesMap() {
          </Map>
 
          <Link to='/orphanages/create' className="create-orphanage">
-            <FiPlus size={26} color="#FFF" />   
+            <FiPlus size={26} color="#FFF" />
          </Link>
       </div>
    )

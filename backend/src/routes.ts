@@ -15,13 +15,20 @@ const upload = multer(uploadConfig);
 // Rotas de orfanatos
 routes.get('/orphanages', OrphanagesController.index)
 routes.get('/orphanages/:id', OrphanagesController.show);
-routes.post('/orphanages', upload.array('images'), OrphanagesController.create);
+routes.post('/orphanages', verifyJWT, upload.array('images'), OrphanagesController.create);
 
 // Rotas de Usuários
 routes.get('/users', UsersController.index);
+routes.get('/users/orphanages/:id', UsersController.showUserOrphanages);
 routes.post('/users/create', UsersController.create);
-routes.post('/users/login', UsersController.login);
 
-routes.get('/users/authToken', verifyJWT, UsersController.authToken);
+// Rotas de autenticação
+routes.post('/users/login', UsersController.login);
+routes.get('/users/auth', verifyJWT, UsersController.authToken);
+
+// Rotas de redefinição de senha
+routes.post('/users/update-password', UsersController.newPasswordToken);
+routes.get('/users/update-password/auth-token', UsersController.authNewPasswordToken);
+routes.put('/users/update-password/', UsersController.updatePassword);
 
 export default routes;

@@ -2,7 +2,7 @@ import React, { useState, FormEvent, useEffect, ChangeEvent } from "react";
 import { Map, Marker, TileLayer } from 'react-leaflet';
 import { LeafletMouseEvent } from "leaflet";
 import { FiPlus, FiX } from "react-icons/fi";
-import BeatLoader from "react-spinners/BeatLoader";
+import MoonLoader from "react-spinners/MoonLoader";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -79,14 +79,21 @@ export default function CreateOrphanage() {
 
       images.forEach(image => {
          data.append('images', image);
-      })
+      });
 
-      await api.post('orphanages', data).then(() => {
+      console.log(userToken);
+
+      await api.post('orphanages', data, {
+         headers: {
+            'x-access-token': userToken.token
+         }
+      }).then(() => {
          setSubmitButtonText('Salvo!');
          setLoading(false);
          setTimeout(() => { setSubmitButtonText('Confirmar'); history.push('/app'); }, 1000);
 
       }).catch(err => {
+         console.log(err.response.data.message);
          setSubmitButtonText('Erro interno');
          setLoading(false);
          setTimeout(() => { setSubmitButtonText('Confirmar') }, 1000);
@@ -248,7 +255,7 @@ export default function CreateOrphanage() {
                      (!loading) ?
                         submitButtonText
                         :
-                        <BeatLoader color={"#ffffff"} loading={loading} />
+                        <MoonLoader color={"#ffffff"} size={30} loading={loading} />
                   }
                </button>
             </form>

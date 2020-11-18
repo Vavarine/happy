@@ -20,12 +20,13 @@ function Routes() {
             <Route path="/" exact component={Landing} />
             <Route path="/app" component={OrphanagesMap} />
 
-            <Route path="/orphanages/create" component={CreateOephanage} />
-            <Route path="/orphanages/:id" component={Orphanage} />
+            <Route path="/orphanages/create" exact component={CreateOephanage} />
+            <Route path="/orphanages/:id" exact component={Orphanage} />
 
             <Route path="/login/:requested?" component={Login} />
-            <Route path="/redefine-password" component={RedefinePassword} />
-            <Route path="/new-password" component={NewPassword} />
+            <Route path="/redefine-password" exact component={RedefinePassword} />
+            <Route path="/redefine-password/:newPasswordToken" component={NewPassword} />
+
             <Route path="/new-account" component={NewAccount} />
 
             <Route path="/dashboard" component={Dashboard} />
