@@ -19,7 +19,7 @@ routes.post('/orphanages', verifyJWT, upload.array('images'), OrphanagesControll
 
 // Rotas de Usuários
 routes.get('/users', UsersController.index);
-routes.get('/users/orphanages/:id', UsersController.showUserOrphanages);
+routes.get('/users/orphanages', verifyJWT, UsersController.showUserOrphanages);
 routes.post('/users/create', UsersController.create);
 
 // Rotas de autenticação

@@ -1,0 +1,67 @@
+#page-delete-orphanage {
+  height: 100vh;
+  width: 100vw;
+  background-color: #FF669D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#page-delete-orphanage .content-wrapper {
+  display: flex;
+  flex-direction: inline-flex;
+  gap: 100px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#page-delete-orphanage .back-button {
+  position: absolute;
+  left: 50px;
+  top: 50px;
+  height: 48px;
+  width: 48px;
+  border-radius: 20px;
+  background-color: #FCF0F4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+
+#page-delete-orphanage .back-button:hover {
+  opacity: .8;
+}
+
+#page-delete-orphanage .content-wrapper main {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#page-delete-orphanage .content-wrapper main h1 {
+  font-size: 80px;
+  font-weight: 800;
+  margin-bottom: 40px;
+}
+
+#page-delete-orphanage .content-wrapper main p {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 34px;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+#page-delete-orphanage .content-wrapper main button {
+  padding: 18px 60px;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  background-color: #D6487B;
+  border: none;
+}

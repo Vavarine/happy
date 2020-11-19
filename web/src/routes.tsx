@@ -10,6 +10,7 @@ import RedefinePassword from './pages/RedefinePassword';
 import NewPassword from './pages/NewPassword';
 import NewAccount from './pages/NewAccount';
 import Dashboard from './pages/Dashboard';
+import DeleteOrphanage from './pages/DeleteOrphanage';
 
 // Switch faz com que apenas uma rota seja mostrada por vez
 
@@ -22,6 +23,7 @@ function Routes() {
 
             <Route path="/orphanages/create" exact component={CreateOephanage} />
             <Route path="/orphanages/:id" exact component={Orphanage} />
+            <Route path="/orphanages/delete/:orphanageId" exact component={DeleteOrphanage} />
 
             <Route path="/login/:requested?" component={Login} />
             <Route path="/redefine-password" exact component={RedefinePassword} />

@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import MoonLoader from 'react-spinners/MoonLoader'
 
-import '../styles/components/sidebar.css';
+import '../styles/components/loadingScreen.css';
 
-import AnimatedLogo from '../images/animate-logo.svg';
+interface LoadingScreenProps {
+  backgroundColor?: string
+}
 
-export default function LoadingScreen() {
+const LoadingScreen: React.FC<LoadingScreenProps> = (props) => {
+  useEffect(() => {
+    if (props.backgroundColor) {
+      document.getElementById('loading-screen')!.style.backgroundColor = props.backgroundColor;
+    }
+  }, [props])
+
+
   return (
     <div id='loading-screen'>
-      <img src={AnimatedLogo} />
+      <div className='loading-spinner-box'>
+        <MoonLoader size={40} color='#4D6F80' />
+      </div>
     </div>
   );
 }
+
+export default LoadingScreen

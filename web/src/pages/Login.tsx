@@ -48,8 +48,6 @@ function Login() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(params)
-
     if (userToken.auth === true) {
       history.push('/dashboard');
     }

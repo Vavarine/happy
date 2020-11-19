@@ -19,7 +19,7 @@ export default {
   },
 
   async showUserOrphanages(req: Request, res: Response) {
-    const { id } = req.params;
+    const { id } = req.body;
 
     const userRepository = getRepository(User);
     const user = await userRepository.findOneOrFail(id, { relations: ['orphanages', 'orphanages.images'] });

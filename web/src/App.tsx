@@ -31,7 +31,6 @@ function App() {
           'x-access-token': parsedUserToken.token
         }
       }).then(response => {
-        console.log(response);
         dispatch(login(parsedUserToken));
         setLoading(false)
       }).catch(err => {
@@ -48,16 +47,15 @@ function App() {
           'x-access-token': parsedUserToken.token
         }
       }).then(response => {
-        console.log(response);
         dispatch(login(parsedUserToken));
       }).catch(err => {
         console.log(err.response.data.message);
       }).finally(() => {
         setLoading(false);
       });
+    } else {
+      setLoading(false);
     }
-
-    setLoading(false);
   }, [])
 
   if (loading) {
