@@ -36,13 +36,13 @@ export default {
          instructions,
          opening_hours,
          open_on_weekends,
-         user_id
+         id
       } = req.body;
 
       const orphanageRepository = getRepository(Orphanage);
       const userRepository = getRepository(User);
 
-      const user = await userRepository.findOneOrFail(user_id);
+      const user = await userRepository.findOneOrFail(id);
 
       const reqFiles = req.files as Express.Multer.File[];
       const images = reqFiles.map(file => {
@@ -86,13 +86,37 @@ export default {
          abortEarly: false,
       })
 
-      console.log(data);
-
       const orphanage = orphanageRepository.create(data);
 
       await orphanageRepository.save(orphanage);
 
       return res.status(201).send(orphanageView.render(orphanage));
-   }
+   },
 
+   async delete(req: Request, res: Response) {
+      const { orphanageId } = req.params;
+      const { id: userId } = req.body;
+
+      const userRepository = getRepository(User);
+      const user = await userRepository.findOneOrFail(userId);
+
+      const orphanageRepository = getRepository(Orphanage);
+
+      if (user.admin === true) {
+
+         await orphanageRepository.delete(orphanageId);
+         res.status(200).json({ message: 'Orphanage deleted' });
+
+      } else {
+         const orphanage = await orphanageRepository.findOneOrFail(orphanageId);
+
+         if (orphanage.user.id === user.id) {
+            await orphanageRepository.delete(orphanageId);
+            res.status(200).json({ message: 'Orphanage deleted' });
+         } else {
+            res.status(401).json({ message: 'User unauthorized' });
+         }
+
+      }
+   }
 }

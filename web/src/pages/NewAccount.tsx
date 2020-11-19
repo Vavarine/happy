@@ -9,11 +9,12 @@ import Panel from '../components/Panel';
 import '../styles/pages/newAccount.css';
 import api from '../services/api';
 import { ValidationErrors } from './Login';
+import { setTimeout } from 'timers';
 
 function NewAccount() {
   const [errorMessage, setErrorMessage] = useState('');
   const [submitLoading, setSubmitLoading] = useState(false)
-  const [submitButtonText, setSubmitButtonText] = useState('Enviar');
+  const [submitButtonText, setSubmitButtonText] = useState('Cadastrar-se');
 
   const [email, setEmail] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
@@ -43,20 +44,33 @@ function NewAccount() {
 
       setTimeout(() => { history.push('/login') }, 800)
     }).catch(err => {
-      console.log(err.response.data.message)
-      if (err.response.data.message === 'Invalid login') {
-        handleInvalidForm()
-      }
-
-      if (err.response.data.message === 'Validation errors') {
-        handleValidationErrors(err.response.data)
+      if (err.response.status === 400) {
+        handleInvalidEmail()
+      } else if (err.response.data.message === 'Validation errors') {
+        handleValidationErrors(err.response.data.message)
+      } else {
+        handleGeneralError()
       }
     })
   }
 
-  function handleInvalidForm() {
+  function handleInvalidEmail() {
+    setSubmitLoading(false);
+    setSubmitButtonText('Esse email já está em uso');
 
+    setEmail('');
+    document.getElementById('email')!.className = 'invalid';
+    document.getElementById('email')!.focus();
+
+    setTimeout(() => { setSubmitButtonText('Cadastrar-se'); }, 1000);
   }
+
+  function handleGeneralError() {
+    setSubmitLoading(false);
+    setSubmitButtonText('Ouve um erro :(');
+    setTimeout(() => { setSubmitButtonText('Cadastrar-se'); }, 1000);
+  }
+
 
   function handleValidationErrors(err: ValidationErrors) {
     const elements = Object.keys(err.errors)
@@ -73,16 +87,11 @@ function NewAccount() {
   }
 
   useEffect(() => {
-    console.log(email);
-
     if (emailValidator.validate(email)) {
       setIsEmailValid(true)
     } else {
       setIsEmailValid(false)
     }
-
-    console.log(isEmailValid);
-
   }, [email]);
 
   useEffect(() => {

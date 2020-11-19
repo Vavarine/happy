@@ -56,7 +56,8 @@
 }
 
 #page-delete-orphanage .content-wrapper main button {
-  padding: 18px 60px;
+  height: 60px;
+  width: 250px;
   border-radius: 20px;
   color: #fff;
   font-weight: 700;
@@ -64,4 +65,13 @@
   line-height: 25px;
   background-color: #D6487B;
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+#page-delete-orphanage .content-wrapper main button:hover {
+  opacity: 0.8;
 }

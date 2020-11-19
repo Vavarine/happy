@@ -9,6 +9,8 @@ import User from '../models/User';
 
 import sendNewPasswordTokenToEmail from '../utils/emailSender';
 import usersView from '../views/usersView';
+import Orphanage from '../models/Orphanage';
+import orphanagesView from '../views/orphanagesView';
 
 export default {
   async index(req: Request, res: Response) {
@@ -22,9 +24,20 @@ export default {
     const { id } = req.body;
 
     const userRepository = getRepository(User);
-    const user = await userRepository.findOneOrFail(id, { relations: ['orphanages', 'orphanages.images'] });
+    const user = await userRepository.findOneOrFail(id);
 
-    return res.status(200).send(usersView.renderUserOrphanages(user))
+    const orphanageRepository = getRepository(Orphanage);
+
+    if (user.admin) {
+
+      const orphanages = await orphanageRepository.find({ relations: ['images'] });
+      return res.status(200).send({ orphanages: orphanagesView.renderMany(orphanages), permissions: 'all' });
+    } else {
+
+      const orphanages = await orphanageRepository.find({ where: { user: user }, relations: ['images'] });
+      return res.status(200).send({ orphanages: orphanagesView.renderMany(orphanages), permissions: 'default' });
+    }
+
   },
 
   async create(req: Request, res: Response) {
@@ -45,14 +58,17 @@ export default {
       const user = usersRepository.create({
         name: req.body.name.replace(/(\r\n|\n|\r)/gm, ""),
         email: req.body.email.replace(/(\r\n|\n|\r)/gm, ""),
-        password: hash
+        password: hash,
+        admin: false
       });
 
       usersRepository.save(user).then(data => {
         return res.status(201).send(data);
       }).catch(err => {
+        console.log(err);
+
         if (err.code === "SQLITE_CONSTRAINT") {
-          return res.status(400).send('Email já cadastrado');
+          return res.status(400).json({ message: 'Email already in use' });
         } else {
           return res.status(500).send(err.code);
         }

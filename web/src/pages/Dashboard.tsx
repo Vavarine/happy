@@ -17,11 +17,12 @@ export default function Dashboard() {
   const userToken = useSelector<Reducers, Reducers['user']>((state) => state.user);
   const [loading, setLoading] = useState(true);
 
-  const [pageTitle, setPageTitle] = useState('Meus Orfanatos Cadastrados')
+  const [pageTitle, setPageTitle] = useState('')
 
   const [selectedMenuItem, setSelectedMenuItem] = useState('approved');
   const [selectValidatedOrphanages, setSelectValidatedOrphanages] = useState(true);
-  const [userOrphanages, setUserOrphanages] = useState<Orphanage[]>()
+  const [userOrphanages, setUserOrphanages] = useState<Orphanage[]>();
+  const [permissions, setPermissions] = useState('');
 
   const history = useHistory();
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function Dashboard() {
         }
       }).then(response => {
         setUserOrphanages(response.data.orphanages);
+        setPermissions(response.data.permissions)
         setLoading(false);
       })
 
@@ -44,12 +46,23 @@ export default function Dashboard() {
   useEffect(() => {
     if (selectedMenuItem === 'approved') {
       setSelectValidatedOrphanages(true);
-      setPageTitle('Meus Orfanatos Cadastrados');
+
+      if (permissions === 'default') {
+        setPageTitle('Meus Orfanatos Cadastrados');
+      } else if (permissions === 'all') {
+        setPageTitle('Todos Orfanatos Cadastrados');
+      }
+
     } else {
       setSelectValidatedOrphanages(false);
-      setPageTitle('Meus Cadastrados Pendentes');
+
+      if (permissions === 'default') {
+        setPageTitle('Meus Orfanatos Pendentes');
+      } else if (permissions === 'all') {
+        setPageTitle('Todos Orfanatos Pendentes');
+      }
     }
-  }, [selectedMenuItem]);
+  }, [selectedMenuItem, permissions]);
 
   function handleOrphanageDelete(orphanageId: number) {
     history.push(`/orphanages/delete/${orphanageId}`)

@@ -35,16 +35,14 @@ function DeleteOrphanage() {
          api.get(`orphanages/${orphanageId}`).then(response => {
             const toBeDeletedOrphanage = response.data as Orphanage;
 
-            console.log(toBeDeletedOrphanage);
+            setOrphanage(toBeDeletedOrphanage)
 
             api.get('users/orphanages', {
                headers: {
                   'x-access-token': userToken.token
                }
             }).then(response => {
-               const orphanages = response.data.orphanages as Array<Orphanage>;
-
-               console.log(orphanages);
+               const orphanages = response.data as Array<Orphanage>;
 
                if (orphanages.filter(o => o.id === toBeDeletedOrphanage.id).length > 0) {
                   setLoading(false);
@@ -76,7 +74,24 @@ function DeleteOrphanage() {
    }
 
    function handleDelete() {
+      setDeletLoading(true);
 
+
+      api.delete(`orphanages/${orphanage?.id}`, {
+         headers: {
+            'x-access-token': userToken.token
+         }
+      }).then(response => {
+         setDeletLoading(false);
+         setDeleteButtonText('Orphanato Deletado');
+
+         setTimeout(() => { setDeleteButtonText('Orphanato Deletado'); handleBackClick() }, 800);
+      }).catch(err => {
+         setDeletLoading(false);
+         setDeleteButtonText('Ouve um erro :(');
+
+         setTimeout(() => { setDeleteButtonText('Excluir orfanato') }, 1000);
+      })
    }
 
    if (loading) {
@@ -97,7 +112,7 @@ function DeleteOrphanage() {
                <button onClick={handleDelete}>{(deleteLoading) ? (
                   <MoonLoader
                      size={30}
-                     color={"#123abc"}
+                     color={"#fff"}
                      loading={deleteLoading}
                   />
                ) :

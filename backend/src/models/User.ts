@@ -18,6 +18,9 @@ export default class User {
   @Column()
   newPasswordToken: string;
 
+  @Column()
+  admin: boolean;
+
   @OneToMany(() => Orphanage, orphanage => orphanage.user, {
     cascade: ['insert', 'update']
   })

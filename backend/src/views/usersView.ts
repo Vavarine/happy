@@ -7,6 +7,7 @@ export default {
       id: user.id,
       nome: user.name,
       email: user.email,
+      admin: user.admin,
       orphanages: orphanagesView.renderMany(user.orphanages)
     }
   },
