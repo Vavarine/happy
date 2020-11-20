@@ -93,6 +93,37 @@ export default {
       return res.status(201).send(orphanageView.render(orphanage));
    },
 
+   async update(req: Request, res: Response) {
+      const { orphanageId } = req.params;
+      const { id: userId, newOrphanage } = req.body;
+
+      // Busca usuário no banco
+      const userRepository = getRepository(User);
+      const user = await userRepository.findOneOrFail(userId);
+
+      // Busca o orfanato a ser atualizado no banco
+      const orphanageRepository = getRepository(Orphanage);
+      const orphanage = await orphanageRepository.findOneOrFail(orphanageId);
+
+
+      if (user.admin === true) {
+         // Se o usuário for admin a atualização do orfanato é feita
+         await orphanageRepository.update(orphanage.id, newOrphanage);
+         res.status(200).json({ message: 'Orphanage updated' });
+
+      } else {
+
+         // Verifica se o usuário tem altoria sobre o cadastro do orfanato
+         if (orphanage.user.id === user.id) {
+            await orphanageRepository.update(orphanage.id, newOrphanage);
+            res.status(200).json({ message: 'Orphanage updated' });
+         } else {
+            res.status(401).json({ message: 'User unauthorized' });
+         }
+
+      }
+   },
+
    async delete(req: Request, res: Response) {
       const { orphanageId } = req.params;
       const { id: userId } = req.body;

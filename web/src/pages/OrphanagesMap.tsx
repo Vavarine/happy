@@ -17,6 +17,7 @@ interface Orphanage {
    latitude: number;
    longitude: number;
    name: string;
+   validated: boolean;
 }
 
 function OrphanagesMap() {
@@ -58,20 +59,22 @@ function OrphanagesMap() {
             />
 
             {orphanages.map(orphanage => {
-               return (
-                  <Marker
-                     position={[orphanage.latitude, orphanage.longitude]}
-                     icon={mapIcon}
-                     key={orphanage.id}
-                  >
-                     <Popup closeButton={false} minWidth={240} maxWidth={240} className='map-popup'>
-                        {orphanage.name}
-                        <Link to={`/orphanages/${orphanage.id}`}>
-                           <FiArrowRight size={20} color="#fff" />
-                        </Link>
-                     </Popup>
-                  </Marker>
-               )
+               if (orphanage.validated === true) {
+                  return (
+                     <Marker
+                        position={[orphanage.latitude, orphanage.longitude]}
+                        icon={mapIcon}
+                        key={orphanage.id}
+                     >
+                        <Popup closeButton={false} minWidth={240} maxWidth={240} className='map-popup'>
+                           {orphanage.name}
+                           <Link to={`/orphanages/${orphanage.id}`}>
+                              <FiArrowRight size={20} color="#fff" />
+                           </Link>
+                        </Popup>
+                     </Marker>
+                  )
+               }
             })}
 
          </Map>
