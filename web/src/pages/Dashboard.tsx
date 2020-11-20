@@ -68,6 +68,10 @@ export default function Dashboard() {
     history.push(`/orphanages/delete/${orphanageId}`)
   }
 
+  function handleOrphanageEdit(orphanageId: number) {
+    history.push(`/orphanages/edit/${orphanageId}`)
+  }
+
   if (loading) {
     return (
       <div id="page-dashboard">
@@ -112,7 +116,7 @@ export default function Dashboard() {
                       <footer>
                         <h2>{orphanage.name}</h2>
                         <div className="orphanage-opts">
-                          <button><FiEdit3 color='#15C3D6' /></button>
+                          <button><FiEdit3 color='#15C3D6' onClick={() => handleOrphanageEdit(orphanage.id)} /></button>
                           <button><FiTrash color='#15C3D6' onClick={() => handleOrphanageDelete(orphanage.id)} /></button>
                         </div>
 
