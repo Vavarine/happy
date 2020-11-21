@@ -35,14 +35,15 @@ function DeleteOrphanage() {
          api.get(`orphanages/${orphanageId}`).then(response => {
             const toBeDeletedOrphanage = response.data as Orphanage;
 
-            setOrphanage(toBeDeletedOrphanage)
+            setOrphanage(toBeDeletedOrphanage);
 
             api.get('users/orphanages', {
                headers: {
                   'x-access-token': userToken.token
                }
             }).then(response => {
-               const orphanages = response.data as Array<Orphanage>;
+
+               const orphanages = response.data.orphanages as Array<Orphanage>;
 
                if (orphanages.filter(o => o.id === toBeDeletedOrphanage.id).length > 0) {
                   setLoading(false);
@@ -51,6 +52,8 @@ function DeleteOrphanage() {
                   handleLoadOrphanageError("Você não tem permissão");
                }
             }).catch(err => {
+               console.log(err)
+
                setLoading(false);
                handleLoadOrphanageError("Ouve um erro :(");
             })
@@ -76,6 +79,7 @@ function DeleteOrphanage() {
    function handleDelete() {
       setDeletLoading(true);
 
+      console.log(orphanage);
 
       api.delete(`orphanages/${orphanage?.id}`, {
          headers: {
@@ -87,6 +91,7 @@ function DeleteOrphanage() {
 
          setTimeout(() => { setDeleteButtonText('Orphanato Deletado'); handleBackClick() }, 800);
       }).catch(err => {
+         console.log(err.response)
          setDeletLoading(false);
          setDeleteButtonText('Ouve um erro :(');
 

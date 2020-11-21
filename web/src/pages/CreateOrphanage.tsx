@@ -13,6 +13,7 @@ import mapIcon from "../utils/mapIcon";
 import api from "../services/api";
 
 import { Reducers } from "../reducers";
+import { ValidationErrors } from "./Login";
 
 interface position {
    latitude: number,
@@ -49,7 +50,25 @@ export default function CreateOrphanage() {
       navigator.geolocation.getCurrentPosition(position => {
          setDeviceLocation(position.coords)
       })
-   }, [])
+   }, []);
+
+   useEffect(() => {
+      document.getElementById('name')!.className = '';
+   }, [name]);
+
+   useEffect(() => {
+      document.getElementById('about')!.className = '';
+
+   }, [about]);
+
+   useEffect(() => {
+      document.getElementById('instructions')!.className = '';
+
+   }, [instructions]);
+
+   useEffect(() => {
+      document.getElementById('opening_hours')!.className = '';
+   }, [opening_hours]);
 
    function handleMapClick(event: LeafletMouseEvent) {
       //console.log(event.latlng);
@@ -93,9 +112,15 @@ export default function CreateOrphanage() {
          setTimeout(() => { setSubmitButtonText('Confirmar'); history.push('/app'); }, 1000);
 
       }).catch(err => {
-         console.log(err.response.data.message);
-         setSubmitButtonText('Erro interno');
          setLoading(false);
+
+         if (err.response.data.message === 'Validation errors') {
+            handleValidationErrors(err.response.data);
+            setSubmitButtonText('Preencha todos os campos!');
+         } else {
+            setSubmitButtonText('Erro interno');
+         }
+
          setTimeout(() => { setSubmitButtonText('Confirmar') }, 1000);
       })
    }
@@ -113,6 +138,18 @@ export default function CreateOrphanage() {
       })
 
       setImagesPreview([...imagesPreview, ...selectedImagesPreview,]);
+   }
+
+   function handleValidationErrors(err: ValidationErrors) {
+      console.log(err.errors);
+
+      const elements = Object.keys(err.errors)
+
+      elements.forEach(element => {
+         document.getElementById(element)!.className = 'invalid';
+      });
+
+      document.getElementById(elements[0])!.focus();
    }
 
    function handleRemoveImage(image: string) {

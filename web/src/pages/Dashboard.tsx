@@ -116,8 +116,8 @@ export default function Dashboard() {
                       <footer>
                         <h2>{orphanage.name}</h2>
                         <div className="orphanage-opts">
-                          <button><FiEdit3 color='#15C3D6' onClick={() => handleOrphanageEdit(orphanage.id)} /></button>
-                          <button><FiTrash color='#15C3D6' onClick={() => handleOrphanageDelete(orphanage.id)} /></button>
+                          <button onClick={() => handleOrphanageEdit(orphanage.id)}><FiEdit3 color='#15C3D6' /></button>
+                          <button onClick={() => handleOrphanageDelete(orphanage.id)}><FiTrash color='#15C3D6' /></button>
                         </div>
 
                       </footer>

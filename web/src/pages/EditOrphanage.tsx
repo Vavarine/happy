@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useEffect, ChangeEvent } from "react";
+import React, { useState, FormEvent, useEffect, ChangeEvent, SetStateAction } from "react";
 import { Map, Marker, TileLayer } from 'react-leaflet';
 import { LeafletMouseEvent } from "leaflet";
 import { FiPlus, FiX } from "react-icons/fi";
@@ -17,6 +17,7 @@ import { Orphanage } from "./Orphanage";
 import LoadingScreen from "../components/LoadingScreen";
 import { timeStamp } from "console";
 import { randomBytes } from "crypto";
+import { ValidationErrors } from "./Login";
 
 interface position {
    latitude: number,
@@ -88,6 +89,9 @@ export default function EditOrphanage() {
          setToBeUpdatedOrphanage(response.data);
 
          setLoading(false);
+
+         setPosition({ latitude: response.data.latitude, longitude: response.data.longitude });
+         setOpenOnWeekends(response.data.open_on_weekends);
       }).catch(err => {
          setLoading(false);
          handleLoadOrphanageError('Erro ao carregar orfanato :(');
@@ -95,7 +99,12 @@ export default function EditOrphanage() {
    }
 
    function imgsUrlToFiles(imgs: Orphanage['images']) {
+      var loadedImages: File[] = [];
+      var loadedImagesPreview: string[] = [];
+
       imgs.forEach(async (img) => {
+         const fileName = img.url.split('/')[4];
+
          const blob = await fetch(img.url).then(r => r.blob());
 
          const dataUrl = await new Promise(resolve => {
@@ -104,20 +113,17 @@ export default function EditOrphanage() {
             reader.readAsDataURL(blob);
          });
 
-         const fileImage = imgDataUriToFile(String(dataUrl));
+         const fileImage = imgDataUriToFile(String(dataUrl), fileName);
 
-         const imagess = images;
-         const imagessPreview = imagesPreview;
+         loadedImages.push(fileImage)
+         loadedImagesPreview.push(URL.createObjectURL(fileImage));
+      });
 
-         imagessPreview.push(URL.createObjectURL(fileImage));
-         imagess.push(fileImage);
-
-         setImagesPreview([...imagesPreview, URL.createObjectURL(fileImage)]);
-         setImages([...images, fileImage]);
-      })
+      setImagesPreview(loadedImagesPreview);
+      setImages(loadedImages);
    }
 
-   function imgDataUriToFile(dataUri: string) {
+   function imgDataUriToFile(dataUri: string, fileName: string) {
       var byteString = atob(dataUri.split(',')[1]);
 
       var ab = new ArrayBuffer(byteString.length);
@@ -128,7 +134,7 @@ export default function EditOrphanage() {
       }
 
       var blob = new Blob([ia], { type: 'image/jpeg' });
-      var file = new File([blob], `${randomBytes(6).toString('hex')}-image.jpg`);
+      var file = new File([blob], fileName);
 
       return file;
    }
@@ -167,22 +173,28 @@ export default function EditOrphanage() {
          data.append('images', image);
       });
 
-      console.log(userToken);
+      //console.log(userToken);
 
-      await api.post('orphanages', data, {
+      await api.put(`orphanages/${orphanageId}`, data, {
          headers: {
             'x-access-token': userToken.token
          }
       }).then(() => {
          setSubmitButtonText('Salvo!');
          setSubmitLoading(false);
-         setTimeout(() => { setSubmitButtonText('Confirmar'); history.push('/app'); }, 1000);
 
+         setTimeout(() => { setSubmitButtonText('Atualizar'); history.goBack(); }, 1000);
       }).catch(err => {
-         console.log(err.response.data.message);
-         setSubmitButtonText('Erro interno');
          setSubmitLoading(false);
-         setTimeout(() => { setSubmitButtonText('Confirmar') }, 1000);
+
+         if (err.response.data.message === 'Validation errors') {
+            handleValidationErrors(err.response.data);
+            setSubmitButtonText('Preencha todos os campos!');
+         } else {
+            setSubmitButtonText('Erro interno');
+         }
+
+         setTimeout(() => { setSubmitButtonText('Atualizar') }, 1000);
       })
    }
 
@@ -214,7 +226,48 @@ export default function EditOrphanage() {
       setImages([...imagesAux])
    }
 
-   useEffect(() => { console.log(images) }, [images])
+   function handleValidationErrors(err: ValidationErrors) {
+      console.log(err.errors);
+
+      const elements = Object.keys(err.errors)
+
+      elements.forEach(element => {
+         if (element === 'images') {
+            return
+         }
+         document.getElementById(element)!.className = 'invalid';
+      });
+
+      if (elements[0] === 'images') {
+         document.getElementById('image-select-button')!.focus();
+      } else {
+         document.getElementById(elements[0])!.focus();
+      }
+
+
+   }
+
+   //useEffect(() => { console.log(images) }, [images])
+
+   useEffect(() => {
+      if (loading) return
+      document.getElementById('name')!.className = '';
+   }, [name]);
+
+   useEffect(() => {
+      if (loading) return
+      document.getElementById('about')!.className = '';
+   }, [about]);
+
+   useEffect(() => {
+      if (loading) return
+      document.getElementById('instructions')!.className = '';
+   }, [instructions]);
+
+   useEffect(() => {
+      if (loading) return
+      document.getElementById('opening_hours')!.className = '';
+   }, [opening_hours]);
 
    if (loading) {
       return (
@@ -235,9 +288,9 @@ export default function EditOrphanage() {
                   <legend>Dados</legend>
 
                   <Map
-                     center={[deviceLocation.latitude, deviceLocation.longitude]}
+                     center={[toBeUpdatedOrphanage!.latitude, toBeUpdatedOrphanage!.longitude]}
                      style={{ width: '100%', height: 280 }}
-                     zoom={(deviceLocation.latitude == initialMapPos.latitude) ? 8 : 14}
+                     zoom={14}
                      onClick={handleMapClick}
                   >
                      <TileLayer
@@ -292,7 +345,7 @@ export default function EditOrphanage() {
                            )
                         })}
 
-                        <label htmlFor="image[]" className="new-image">
+                        <label id='image-select-button' htmlFor="image[]" className="new-image">
                            <FiPlus size={24} color="#15b6d6" />
                         </label>
                      </div>

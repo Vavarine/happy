@@ -16,7 +16,7 @@ const upload = multer(uploadConfig);
 routes.get('/orphanages', OrphanagesController.index)
 routes.get('/orphanages/:id', OrphanagesController.show);
 routes.delete('/orphanages/:orphanageId', verifyJWT, OrphanagesController.delete);
-routes.put('/orphanages/:orphanageId', verifyJWT, OrphanagesController.update);
+routes.put('/orphanages/:orphanageId', upload.array('images'), verifyJWT, OrphanagesController.update);
 routes.post('/orphanages', upload.array('images'), verifyJWT, OrphanagesController.create);
 
 // Rotas de Usuários
