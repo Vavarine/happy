@@ -23,6 +23,8 @@ function App() {
     const storagedUserToken = localStorage.getItem('userToken');
     const sessionStoragedUserToken = sessionStorage.getItem('userToken');
 
+    console.log(process.env.HAPPY_SERVER_API_URL)
+
     if (storagedUserToken) {
       const parsedUserToken: UserState = JSON.parse(storagedUserToken);
 

@@ -32,6 +32,7 @@
 }
 
 #page-dashboard main .orphanages-wrapper {
+  margin-bottom: 40px;
   width: 100%;
   display: inline-flex;
   flex-wrap: wrap;

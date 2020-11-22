@@ -16,12 +16,14 @@ const upload = multer(uploadConfig);
 routes.get('/orphanages', OrphanagesController.index)
 routes.get('/orphanages/:id', OrphanagesController.show);
 routes.delete('/orphanages/:orphanageId', verifyJWT, OrphanagesController.delete);
+routes.get('/orphanages/validate/:orphanageId', verifyJWT, OrphanagesController.validate);
 routes.put('/orphanages/:orphanageId', upload.array('images'), verifyJWT, OrphanagesController.update);
 routes.post('/orphanages', upload.array('images'), verifyJWT, OrphanagesController.create);
 
 // Rotas de Usuários
 routes.get('/users', UsersController.index);
 routes.get('/users/orphanages', verifyJWT, UsersController.showUserOrphanages);
+routes.get('/users/permissions', verifyJWT, UsersController.showUserPermissions);
 routes.post('/users/create', UsersController.create);
 
 // Rotas de autenticação

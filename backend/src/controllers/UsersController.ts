@@ -40,6 +40,19 @@ export default {
 
   },
 
+  async showUserPermissions(req: Request, res: Response) {
+    const { id } = req.body;
+
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOneOrFail(id);
+
+    if (user.admin === true) {
+      res.status(200).json({ message: 'Authorized' });
+    } else {
+      res.status(401).json({ message: 'Unauthorized' });
+    }
+  },
+
   async create(req: Request, res: Response) {
     const usersRepository = getRepository(User);
     const saltRounds = 10;

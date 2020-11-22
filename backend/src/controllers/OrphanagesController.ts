@@ -240,5 +240,24 @@ export default {
          }
 
       }
+   },
+
+   async validate(req: Request, res: Response) {
+      const { orphanageId } = req.params;
+      const { id } = req.body;
+
+      console.log('asdf');
+
+      const userRepository = getRepository(User);
+      const user = await userRepository.findOneOrFail(id);
+
+      if (user.admin === true) {
+         const orphanageRepository = getRepository(Orphanage);
+         await orphanageRepository.update(orphanageId, { validated: true });
+
+         res.status(200).json({ message: 'Orphanage validated' });
+      } else {
+         res.status(401).json({ message: 'Unauthorized' });
+      }
    }
 }

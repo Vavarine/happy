@@ -7,7 +7,7 @@ import { Reducers } from '../reducers';
 import api from '../services/api';
 import { Orphanage } from './Orphanage';
 import { Map, Marker, TileLayer } from "react-leaflet";
-import { FiEdit3, FiTrash } from 'react-icons/fi'
+import { FiEdit3, FiTrash, FiArrowRight } from 'react-icons/fi'
 
 import mapIcon from "../utils/mapIcon";
 
@@ -25,6 +25,7 @@ export default function Dashboard() {
   const [permissions, setPermissions] = useState('');
 
   const history = useHistory();
+
   useEffect(() => {
     if (userToken.auth === false) {
       history.push('/login?requested=true')
@@ -70,6 +71,10 @@ export default function Dashboard() {
 
   function handleOrphanageEdit(orphanageId: number) {
     history.push(`/orphanages/edit/${orphanageId}`)
+  }
+
+  function handleOrphanageValidation(orphanageId: number) {
+    history.push(`/orphanages/validate/${orphanageId}`)
   }
 
   if (loading) {
@@ -118,6 +123,9 @@ export default function Dashboard() {
                         <div className="orphanage-opts">
                           <button onClick={() => handleOrphanageEdit(orphanage.id)}><FiEdit3 color='#15C3D6' /></button>
                           <button onClick={() => handleOrphanageDelete(orphanage.id)}><FiTrash color='#15C3D6' /></button>
+                          {(selectedMenuItem === 'pending' && permissions === 'all') ? (
+                            < button onClick={() => handleOrphanageValidation(orphanage.id)}><FiArrowRight color='#15C3D6' /></button>
+                          ) : ''}
                         </div>
 
                       </footer>
@@ -129,6 +137,6 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
-    </div>
+    </div >
   )
 }
