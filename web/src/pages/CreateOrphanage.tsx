@@ -109,7 +109,7 @@ export default function CreateOrphanage() {
       }).then(() => {
          setSubmitButtonText('Salvo!');
          setLoading(false);
-         setTimeout(() => { setSubmitButtonText('Confirmar'); history.push('/app'); }, 1000);
+         setTimeout(() => { history.push('/orphanage/registered'); }, 800);
 
       }).catch(err => {
          setLoading(false);

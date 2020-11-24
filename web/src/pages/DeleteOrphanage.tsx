@@ -113,7 +113,7 @@ function DeleteOrphanage() {
          <div className="content-wrapper">
             <main>
                <h1>Excluir!</h1>
-               <p>Voce tem certeza que quer excluir sdfasdf?</p>
+               <p>Voce tem certeza que quer excluir {orphanage?.name}?</p>
                <button onClick={handleDelete}>{(deleteLoading) ? (
                   <MoonLoader
                      size={30}

@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard';
 import DeleteOrphanage from './pages/DeleteOrphanage';
 import EditOrphanage from './pages/EditOrphanage';
 import ValidateOrphanage from './pages/ValidateOrphanage';
+import RegisteredOrphanage from './pages/RegisteredOrphanage';
 
 // Switch faz com que apenas uma rota seja mostrada por vez
 
@@ -26,6 +27,7 @@ function Routes() {
             <Route path="/orphanages/create" exact component={CreateOephanage} />
             <Route path="/orphanages/:id" exact component={Orphanage} />
             <Route path="/orphanages/delete/:orphanageId" exact component={DeleteOrphanage} />
+            <Route path="/orphanage/registered" exact component={RegisteredOrphanage} />
             <Route path="/orphanages/validate/:orphanageId" exact component={ValidateOrphanage} />
 
             <Route path="/orphanages/edit/:orphanageId" exact component={EditOrphanage} />
