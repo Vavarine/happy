@@ -14,6 +14,23 @@
 
 <p>Parte desse projeto foi desenvolvido na Next Level Week 3.</p>
 
+### Features
+
+- [x] Cadastro de orfanatos
+- [x] Listagem de orfanatos em mapa
+- [x] Cadastro de usuários
+- [x] Login de usuários
+- [x] Retrição de áreas à usuários não autenticados ultilizando token de autenticação
+- [x] Recuperação de senhas via email
+- [x] Dash board de usuário
+- [x] Dash board de administrador
+- [x] Verificação de permissoes de administrador ao fazer requisições
+- [x] Exclusão de orfanatos
+- [x] Edição de orfanatos
+- [x] Verificação de permissões do usuário para com orfanato
+- [x] Orfanatos cadastrados tem que pssar por validação de administrador
+- [ ] Cadastro e contado por whatsapp
+
 <p>&nbsp;</p>
 
 ## 🖥 Layout
@@ -23,30 +40,9 @@ O layout completo do projeto pode ser visto na ferramenta de design de interface
 - [Layout mobile](https://www.figma.com/file/vXzfEAGZIYKUeeeVW8uGQe/Happy-Mobile)
 
 <p>&nbsp;</p>
-
-<p align="center"><b>Landing Page</b></p>
-<p align="center">
-  <img src=".github/landing-page.jpg" alt="Landing page" width="700px"/>
-</p>
-
 <p>&nbsp;</p>
 
-<p align="center"><b>Mapa de com orfanatos</b></p>
-<p align="center">
-  <img src=".github/mapa-orfanatos-aceitos.jpg" alt="Map page" width="700px"/>
-</p>
-
-<p>&nbsp;</p>
-
-<p align="center"><b>Fluxo de cadastro de orfanatos</b></p>
-<p align="center">
-  <img src=".github/fluxo-cadastro.gif" alt="Map page" width="700px"/>
-</p>
-
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-
-## ⚙️ Tecnologias e sua aplicação no projeto
+## 🛠 Tecnologias e sua aplicação no projeto
 - [typeScript](https://www.typescriptlang.org/) é um super conjunto que extende a linguagem JavaScript adicionando tipagem
 
 <p>&nbsp;</p>
@@ -77,3 +73,104 @@ O layout completo do projeto pode ser visto na ferramenta de design de interface
 - **Front-end Mobile**
   - [react-native](https://reactnative.dev/) é uma framework para desenvolvimento mobile
   - [expo](https://expo.io/) é uma plataforma que auxilia o desenvolvimento com react-native
+  
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## 🚀 Demonstração
+
+<p align="center"><b>Fluxo de cadastro de orfanatos</b></p>
+<p align="center">
+  <img src=".github/fluxo-cadastro.gif" alt="Map page" width="700px"/>
+</p>
+
+<p>&nbsp;</p>
+
+<p align="center"><b>Pagina do usuário pré validação por Administrador</b></p>
+<p align="center">
+  <img src=".github/area-usuario.jpg" alt="User page" width="700px"/>
+</p>
+
+<p>&nbsp;</p>
+
+<p align="center"><b>Pagina do Administrador</b></p>
+<p align="center">
+  <img src=".github/area-usuario-admin-aceitar-cadastro.jpg" alt="User page" width="700px"/>
+</p>
+
+<p>&nbsp;</p>
+
+<p align="center"><b>Pagina do validação de orfanato</b></p>
+<p align="center">
+  <img src=".github/area-usuario-admin.jpg" alt="User page" width="700px"/>
+</p>
+
+<p>&nbsp;</p>
+
+<p align="center"><b>Pagina de listagem de orfanatos</b></p>
+<p align="center">
+  <img src=".github/area-usuario-admin.jpg" alt="User page" width="700px"/>
+</p>
+
+<p>&nbsp;</p>
+
+<p align="center"><b>Pagina do orfanato</b></p>
+<p align="center">
+  <img src=".github/orfanato-cadastrado.png" alt="User page" width="700px"/>
+</p>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+## Instalação e Start
+Esse é um monorepo, todo o código fonte desse projeto esta nesse repositório. É necessário entrar nas pastas fontes do projeto **web**, **server** e **mobile** e instalar suas dependências individualmente. Os exemplos dos códigos abaixo são usando o gerenciador de pacotes **Yarn**, se não quiser apenas troque os comandos **yarn** por **npm** 
+
+### Pré-requisitos
+Para que se possa rodar o projeto as seguintes ferramentas são nessesarias:
+[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/)
+
+### Clonando o repositório
+
+```bash
+> git clone https://github.com/Vavarine/happy
+> cd happy
+```
+
+## Rodando o Back End (servidor)
+
+```bash
+> cd backend
+> yarn install
+> yarn start
+```
+
+O servidor iniciará na porta:3333 - acesse <http://localhost:3333> 
+
+## Rodando o Front End (web)
+
+```bash
+> cd backend
+> yarn install
+> yarn start
+```
+
+O front-end web iniciara na porta:3000 - acesse <http://localhost:3000> 
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+---
+
+### Sobre mim
+
+<a href="https://github.com/Vavarine">
+  <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/Vavarine" width="100px;" alt=""/>
+</a>
+<br />
+
+<b>Evailson Barbosa</b>
+
+Feito com ❤️ por Evailson Barbosa 👋🏽 Entre em contato!
+
+[![Linkedin Badge](https://img.shields.io/badge/-Evailson-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/evailson-barbosa/)](https://www.linkedin.com/in/evailson-barbosa/) 
+[![Gmail Badge](https://img.shields.io/badge/-evailson.m.barbosa@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:evailson.m.barbosa@gmail.com)](mailto:evailson.m.barbosa@gmail.com)
