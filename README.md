@@ -40,7 +40,6 @@ O layout completo do projeto pode ser visto na ferramenta de design de interface
 - [Layout mobile](https://www.figma.com/file/vXzfEAGZIYKUeeeVW8uGQe/Happy-Mobile)
 
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 
 ## 🛠 Tecnologias e sua aplicação no projeto
 - [typeScript](https://www.typescriptlang.org/) é um super conjunto que extende a linguagem JavaScript adicionando tipagem
@@ -136,7 +135,7 @@ Para que se possa rodar o projeto as seguintes ferramentas são nessesarias:
 > cd happy
 ```
 
-## Rodando o Back End (servidor)
+### Rodando o Back End (servidor)
 
 ```bash
 > cd backend
@@ -146,7 +145,7 @@ Para que se possa rodar o projeto as seguintes ferramentas são nessesarias:
 
 O servidor iniciará na porta:3333 - acesse <http://localhost:3333> 
 
-## Rodando o Front End (web)
+### Rodando o Front End (web)
 
 ```bash
 > cd backend
@@ -157,18 +156,10 @@ O servidor iniciará na porta:3333 - acesse <http://localhost:3333>
 O front-end web iniciara na porta:3000 - acesse <http://localhost:3000> 
 
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 
 ---
 
-### Sobre mim
-
-<a href="https://github.com/Vavarine">
-  <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/Vavarine" width="100px;" alt=""/>
-</a>
-<br />
-
-<b>Evailson Barbosa</b>
+## Sobre mim
 
 Feito com ❤️ por Evailson Barbosa 👋🏽 Entre em contato!
 
