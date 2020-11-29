@@ -67,14 +67,14 @@ O layout completo do projeto pode ser visto na ferramenta de design de interface
   - [leaflet](https://leafletjs.com/) é uma biblioteca de mapas interativos, usado para a criação dos mapas interativos da aplicação
   - [redux](https://redux.js.org/introduction/getting-started) é uma biblioteca de gerenciamento de estados da aplicação, usado para auxiliar o sistema de login e de áreas restritas
   
-  <p>&nbsp;</p>
+ <p>&nbsp;</p>
   
 - **Front-end Mobile**
   - [react-native](https://reactnative.dev/) é uma framework para desenvolvimento mobile
   - [expo](https://expo.io/) é uma plataforma que auxilia o desenvolvimento com react-native
   
 <p>&nbsp;</p>
-<p>&nbsp;</p>
+
 
 ## 🚀 Demonstração
 
@@ -118,7 +118,6 @@ O layout completo do projeto pode ser visto na ferramenta de design de interface
   <img src=".github/orfanato-cadastrado.png" alt="User page" width="700px"/>
 </p>
 
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 
 ## Instalação e Start
