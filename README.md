@@ -58,16 +58,12 @@ O layout completo do projeto pode ser visto na ferramenta de design de interface
   - [typeorm](https://typeorm.io/#/) é uma Object Relational Mapper, usado na integração com o banco de dados, relacionando os dados aos objetos que os representam 
   - [yup](https://www.npmjs.com/package/yup) é um contrutor e validador de esquemas de objetos, usado na validação das requisições ao servidor 
  
- <p>&nbsp;</p>
- 
 - **Front-end Web**
   - [react](https://reactjs.org/) é uma biblioteca de criação de interfaces, usado na criação de todas as interfaçes da aplicação 
   - [axios](https://www.npmjs.com/package/axios) é um cliente HTTP baseado em promisses, usado na conexão 
   - [email-validator](https://www.npmjs.com/package/email-validator) é um módulo simples de validação de e-mails
   - [leaflet](https://leafletjs.com/) é uma biblioteca de mapas interativos, usado para a criação dos mapas interativos da aplicação
   - [redux](https://redux.js.org/introduction/getting-started) é uma biblioteca de gerenciamento de estados da aplicação, usado para auxiliar o sistema de login e de áreas restritas
-  
- <p>&nbsp;</p>
   
 - **Front-end Mobile**
   - [react-native](https://reactnative.dev/) é uma framework para desenvolvimento mobile
