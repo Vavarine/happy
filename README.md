@@ -14,7 +14,7 @@
 
 <p>Parte desse projeto foi desenvolvido na Next Level Week 3.</p>
 
-### Features
+## Features ##
 
 - [x] Cadastro de orfanatos
 - [x] Listagem de orfanatos em mapa
@@ -43,8 +43,6 @@ O layout completo do projeto pode ser visto na ferramenta de design de interface
 
 ## 🛠 Tecnologias e sua aplicação no projeto
 - [typeScript](https://www.typescriptlang.org/) é um super conjunto que extende a linguagem JavaScript adicionando tipagem
-
-<p>&nbsp;</p>
 
 - **back-end**
   - [nodeJs](https://nodejs.org/en/) é um ambiente de execução Javascript server-side, usado para a construção do código
